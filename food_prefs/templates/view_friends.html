@@ -6,6 +6,9 @@
     <hr/>
     <h3>{{friend.user.username}}</h3>
     <p>{{friend.preference_text}}</p>
+{% empty %}
+<p>You haven't added any friends!</p>
+<a href="{% url 'find_friends' %}">Find your friends</a> 
 {% endfor %}
 
 {% endblock %}

@@ -1,8 +1,49 @@
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Guest | {% block title %}{% endblock %}</title>
+
+    {% load staticfiles %}
+    <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/png" href="{% static "images/favicon.ico" %}"/>
+    
 </head>
 
-<body>
-<a href="/">Home</a>
-{% block content %}
-{% endblock %}
-</body>
+ <body>
+      <div id="wrap">
+
+          <div class="navbar navbar-inverse navbar-static-top">
+              <a style="max-width:300px" class="navbar-brand" href="/">Special Guest</a>
+
+              <ul class="nav navbar-nav navbar-right">
+                  {% if user.is_authenticated %}
+                  <li><p class="navbar-text">Logged in as: {{user.get_username}}</p></li>
+                  <li><a href="/accounts/logout">Log out</a></li>
+                  {% else %}
+                  <li><a href="/accounts/login">Log in</a></li>
+                  {% endif %}
+              </ul>
+          </div>
+
+          <div class="container top-level-container">
+
+              {% if messages %}
+                  {% for message in messages %}
+                  <div class="alert alert-{{message.tags}}">
+                      {{ message }}
+                  </div>
+                  {% endfor %}
+              {% endif %}
+
+              {% block content %}
+              {% endblock %}
+              <br/>
+              {% block home_link %}
+                  <a href="/">Home</a> 
+              {% endblock %}
+
+          </div>
+          <br/><br/>
+  </body>
+</html>

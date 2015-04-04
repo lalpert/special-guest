@@ -4,7 +4,7 @@ import datetime
 
 
 class Person(models.Model):
-    preference_text = models.TextField()
+    preference_text = models.TextField("Enter your preferences/restrictions")
     user = models.OneToOneField(User)
     def __unicode__(self):
         return unicode(self.user)

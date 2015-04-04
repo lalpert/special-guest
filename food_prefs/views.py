@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 import util
 from forms import PersonForm
 from models import Relationship, Person
@@ -70,6 +71,8 @@ def find_friends(request):
         requested = Person.objects.get(id=requested_id)
         # TODO change to false and add a way to confirm friends
         rel = Relationship.objects.create(requester=person, requested=requested, confirmed=True) 
+        messages.success(request, 'You are now friends with %s' % requested.user.username)
+        
 
     confirmed_friends = util.confirmed_friends(person)
     requested_friends = util.requested_friends(person)
