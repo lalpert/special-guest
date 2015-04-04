@@ -2,3 +2,5 @@ venv-special-guest
 *.swp
 *.swo
 db.sqlite3
+*.pyc
+staticfiles
