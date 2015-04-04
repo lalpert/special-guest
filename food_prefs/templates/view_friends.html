@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your friends</h2>
+{% for friend in friends %}
+    <hr/>
+    <h3>{{friend.user.username}}</h3>
+    <p>{{friend.preference_text}}</p>
+{% endfor %}
+
+{% endblock %}

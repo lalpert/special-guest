@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Find friends</h2>
+{% for p in all_people %}
+    <hr/>
+    <h3>{{p.user.username}}</h3>
+    <p>
+    {% if p.confirmed_friend %}
+    already friends
+    {% elif p.requested_friend %}
+    already requested
+    {% else %}
+    <form method=post>{% csrf_token %}
+        <input type="hidden" name="requested_id" value={{p.id}}>
+        <input type="submit" value="Add friend">
+    </form>
+    {% endif %}
+    </p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Welcome to Special Guest!</h2>
+<ul>
+    <li>
+        <a href="{% url 'your_profile' %}">View/Edit your profile</a>
+    </li>
+    <li>
+        <a href="{% url 'view_friends' %}">View your friends</a>
+    </li>
+    <li>
+        <a href="{% url 'find_friends' %}">Add friends</a>
+    </li>
+</ul>
+{% endblock %}

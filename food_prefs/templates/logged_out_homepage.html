@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Welcome to Special Guest!</h2>
+The place to share your picky eating habits with your friends
+
+<p>
+    <a href="{% url 'auth_login' %}">Log in</a> or
+    <a href="{% url 'registration_register' %}">Register</a>
+</p>
+
+
+{% endblock %}
