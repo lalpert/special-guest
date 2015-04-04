@@ -1,25 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.contrib.auth import authenticate, login
 import util
 from forms import PersonForm
 from models import Relationship, Person
-
-def login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            # Redirect to a success page.
-        else:
-            # Return a 'disabled account' error message
-            pass
-    else:
-        pass
-        # Return an 'invalid login' error message.
 
 def index(request):
     if request.user.is_authenticated():
@@ -50,6 +35,8 @@ def edit_profile(request):
     if request.method == "POST":
         form = PersonForm(request.POST, instance=person)
         form.save()
+        return redirect('your_profile')
+
     else:
         form = PersonForm(instance=person)
 

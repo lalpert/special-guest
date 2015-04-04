@@ -70,7 +70,7 @@ DATABASES = {
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
+DATABASES['default'] =  dj_database_url.config(default='postgres://leahalpert:postgres@127.0.0.1/django_db')
 
 
 # Internationalization
