@@ -7,29 +7,33 @@ import util
 from forms import PersonForm
 from models import Relationship, Person
 
+# Main page at /
 def index(request):
     if request.user.is_authenticated():
         return logged_in_homepage(request)
     else:
         return logged_out_homepage(request)
 
+# Homepage shown to logged-in users
 def logged_in_homepage(request):
     template = loader.get_template('index.html')
     context = RequestContext(request, {})
     return HttpResponse(template.render(context))
 
-
+# Homepage shown to logged-out users
 def logged_out_homepage(request):
     template = loader.get_template('logged_out_homepage.html')
     context = RequestContext(request, {})
     return HttpResponse(template.render(context))
 
+# Displays the logged-in user's profile
 def view_profile(request):
     template = loader.get_template('view_profile.html')
     d = {"person": util.current_person(request)} 
     context = RequestContext(request, d)
     return HttpResponse(template.render(context))
 
+# Lets a user edit their profile
 def edit_profile(request):
     person = util.current_person(request)
 
@@ -50,6 +54,7 @@ def edit_profile(request):
     context = RequestContext(request, d)
     return HttpResponse(template.render(context))
 
+# Display a list of the current user's friends
 def all_friends(request):
     person = util.current_person(request)
     friends = util.confirmed_friends(person)
@@ -63,26 +68,20 @@ def all_friends(request):
     context = RequestContext(request, d)
     return HttpResponse(template.render(context))
 
+# Display all users and let current user add them as friends
 def find_friends(request):
     person = util.current_person(request)
     
     if request.method == "POST":
         requested_id = int(request.POST["requested_id"])
         requested = Person.objects.get(id=requested_id)
-        # TODO change to false and add a way to confirm friends
+        # TODO change confirmed to false and add a way to confirm friends
         rel = Relationship.objects.create(requester=person, requested=requested, confirmed=True) 
         messages.success(request, 'You are now friends with %s' % requested.user.username)
         
-
-    confirmed_friends = util.confirmed_friends(person)
-    requested_friends = util.requested_friends(person)
-    all_people = Person.objects.exclude(id=person.id)
-    for p in all_people:
-        if p in confirmed_friends:
-            p.confirmed_friend = True
-        elif p in requested_friends:
-            p.requested_friend = True
-
+    # Get all People with info on their friendship with current user
+    all_people = util.get_all_people_with_annotations(person)
+   
     d = {
         "person": person,
         "all_people": all_people
@@ -91,5 +90,3 @@ def find_friends(request):
     template = loader.get_template('find_friends.html')
     context = RequestContext(request, d)
     return HttpResponse(template.render(context))
-
-

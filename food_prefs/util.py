@@ -24,4 +24,16 @@ def requested_friends(person):
     friends += [rel.requested for rel in r]
     return friends
 
+# Return a list of all people, with information on if they are a confirmed or
+# pending friend of the given Person.
+def get_all_people_with_annotations(person):
+    confirmed = confirmed_friends(person)
+    requested = requested_friends(person)
+    all_people = Person.objects.exclude(id=person.id)
+    for p in all_people:
+        if p in confirmed:
+            p.confirmed_friend = True
+        elif p in requested:
+            p.requested_friend = True
+    return all_people
 
