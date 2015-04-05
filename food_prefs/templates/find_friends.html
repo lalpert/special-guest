@@ -10,11 +10,22 @@
     already friends
     {% elif p.requested_friend %}
     already requested
+    {% elif p.requested_me %}
+
+    <form method=post>{% csrf_token %}
+        <input type="hidden" name="requester_id" value={{p.id}}>
+        <input type="hidden" name="type" value="accept">
+        <input type="submit" value="Accept friend">
+    </form>
+
     {% else %}
+
     <form method=post>{% csrf_token %}
         <input type="hidden" name="requested_id" value={{p.id}}>
+        <input type="hidden" name="type" value="request">
         <input type="submit" value="Add friend">
     </form>
+
     {% endif %}
     </p>
 {% endfor %}

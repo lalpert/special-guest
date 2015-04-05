@@ -2,10 +2,21 @@
 
 {% block content %}
 <h2>Your friends</h2>
-{% for friend in friends %}
+<hr/>
+
+{% for friend in pending_friends %}
+    <h3>{{friend.user.username}}</h3>
+    <form method=post>{% csrf_token %}
+        <input type="hidden" name="requester_id" value={{friend.id}}>
+        <input type="submit" value="Accept friend">
+    </form>
     <hr/>
+{% endfor %}
+
+{% for friend in friends %}
     <h3>{{friend.user.username}}</h3>
     <p>{{friend.preference_text}}</p>
+    <hr/>
 {% empty %}
 <p>You haven't added any friends!</p>
 <a href="{% url 'find_friends' %}">Find your friends</a> 

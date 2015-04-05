@@ -18,10 +18,16 @@
 
               <ul class="nav navbar-nav navbar-right">
                   {% if user.is_authenticated %}
-                  <li><p class="navbar-text">Logged in as: {{user.get_username}}</p></li>
-                  <li><a href="/accounts/logout">Log out</a></li>
+                      {% if num_requests %}
+                          <li>
+                              <a href="/food_prefs/all_friends">{{num_requests}} friend requests</a>
+                          </li>
+                      {% endif %}
+
+                      <li><p class="navbar-text">Logged in as: {{user.get_username}}</p></li>
+                      <li><a href="/accounts/logout">Log out</a></li>
                   {% else %}
-                  <li><a href="/accounts/login">Log in</a></li>
+                      <li><a href="/accounts/login">Log in</a></li>
                   {% endif %}
               </ul>
           </div>
