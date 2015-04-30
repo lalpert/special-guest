@@ -7,6 +7,10 @@ import util
 from forms import PersonForm
 from models import Relationship, Person
 
+# Set this to True to let people add friends with no confirmation.
+# Set it to False to make the other person have to confirm the friendship
+CONFIRM_FRIENDS_AUTOMATICALLY = True
+
 
 def add_extra_info(request, context_dict):
     person = util.current_person(request)
@@ -90,7 +94,8 @@ def find_friends(request):
         if request.POST["type"] == "request":
             requested_id = int(request.POST["requested_id"])
             requested = Person.objects.get(id=requested_id)
-            rel = Relationship.objects.create(requester=person, requested=requested, confirmed=False) 
+            rel = Relationship.objects.create(requester=person, 
+                    requested=requested, confirmed=CONFIRM_FRIENDS_AUTOMATICALLY) 
             messages.success(request, 'You have requested %s' % requested.user.username)
         elif request.POST["type"] == "accept":
             requester_id = int(request.POST["requester_id"])
